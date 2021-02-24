@@ -1,0 +1,60 @@
+{% extends 'dashboard/base_dash.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+
+{% block content %}
+     <div class="table-responsive">
+                <table class="table align-middle table-striped table-sm table-hover caption-top table-bordered text-center">
+                    <caption><h2 class="text-capitalize">DB: Infos </h2></caption>
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">Produto</th>
+                            <th scope="col">Código</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">NCM</th>
+                            <th scope="col">Porto</th>
+                            <th scope="col">PA</th>
+                            <th scope="col">PO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in page_obj %}
+                            <tr>
+                                <td scope="col">{{product.id}}</td>
+                                <td scope="col">{{ product.marca }}</td>
+                                <td scope="col">{{ product.nome_prod }}</td>
+                                <td scope="col">{{ product.cod_marca }}</td>
+                                <td scope="col">{{product.descricao}}</td>
+                                <td scope="col">{{product.ncm}}</td>
+                                <td scope="col">{{product.porto}}</td>
+                                <td scope="col">{{product.pa}}</td>
+                                <td scope="col">{{product.po}}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>Nenhum registro salvo!</tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

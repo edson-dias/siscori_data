@@ -1,0 +1,229 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.79.0">
+    <title>Dash - InfoSisco </title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
+
+
+
+    <!-- Bootstrap core CSS -->
+<link href="{% static 'dashboard/assets/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'dashboard/dashboard.css' %}" rel="stylesheet">
+  </head>
+  <body>
+
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Company name</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <ul class="navbar-nav px-3">
+    <li class="nav-item text-nowrap">
+      <a class="nav-link" href="#">Logout</a>
+    </li>
+  </ul>
+</header>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            {% if request.path_info == '/dash/' %}
+              <a class="nav-link active" aria-current="page" href="{% url 'plataforma' %}">
+              <span data-feather="home"></span>
+              Importações
+              </a>
+            {% else %}
+              <a class="nav-link" aria-current="page" href="{% url 'plataforma' %}">
+              <span data-feather="home"></span>
+              Importações
+              </a>
+            {% endif %}
+          </li>
+          <li class="nav-item">
+            {% if request.path_info == '/comp/' %}
+              <a class="nav-link active" aria-current="page" href="{% url 'comparacoes' %}">
+              <span data-feather="file"></span>
+              Comparações
+              </a>
+            {% else %}
+              <a class="nav-link" aria-current="page" href="{% url 'comparacoes' %}">
+              <span data-feather="file"></span>
+              Comparações
+              </a>
+            {% endif %}
+          </li>
+          <li class="nav-item">
+            {% if request.path_info == '/cotacoes/' %}
+              <a class="nav-link active" href="{% url 'cotations' %}">
+              <span data-feather="shopping-cart"></span>
+              Cotações
+              </a>
+            {% else %}
+              <a class="nav-link" href="{% url 'cotations' %}">
+              <span data-feather="shopping-cart"></span>
+              Cotações
+              </a>
+            {% endif %}
+          </li>
+          <li class="nav-item">
+            {% if request.path_info == '/configs/' %}
+              <a class="nav-link active" href="{% url 'settings' %}">
+              <span data-feather="users"></span>
+              Configurações
+              </a>
+            {% else %}
+              <a class="nav-link" href="{% url 'settings' %}">
+              <span data-feather="users"></span>
+              Configurações
+              </a>
+            {% endif %}
+          </li>
+          <li class="nav-item">
+            {% if request.path_info == '/reports/' %}
+              <a class="nav-link active" href="{% url 'reports' %}">
+              <span data-feather="bar-chart-2"></span>
+              Reports
+              </a>
+            {% else %}
+              <a class="nav-link" href="{% url 'reports' %}">
+              <span data-feather="bar-chart-2"></span>
+              Reports
+              </a>
+            {% endif %}
+          </li>
+          <li class="nav-item">
+            {% if request.path_info == '/sugestoes/' %}
+              <a class="nav-link active" href="{% url 'suggestions' %}">
+              <span data-feather="layers"></span>
+              Sugestões
+              </a>
+            {% else %}
+              <a class="nav-link" href="{% url 'suggestions' %}">
+              <span data-feather="layers"></span>
+              Sugestões
+              </a>
+            {% endif %}
+          </li>
+        </ul>
+        {% if user.is_superuser %}
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Área Administrativa</span>
+          </h6>
+          <ul class="nav flex-column mb-2">
+            <li class="nav-item">
+              {% if request.path_info == '/admin_sisco/' %}
+              <a class="nav-link active" aria-current="page" href="{% url 'admin_sisco' %}">
+              <span data-feather="file"></span>
+              Admin - Upload CSV
+              </a>
+            {% else %}
+              <a class="nav-link" aria-current="page" href="{% url 'admin_sisco' %}">
+              <span data-feather="file"></span>
+              Admin - Upload CSV
+              </a>
+            {% endif %}
+            </li>
+            <li class="nav-item">
+            {% if request.path_info == '/admin_sisco/cadastro/' %}
+              <a class="nav-link active" href="{% url 'cadastro_form' %}">
+              <span data-feather="users"></span>
+              Cadastro - Formulário
+              </a>
+            {% else %}
+              <a class="nav-link" href="{% url 'cadastro_form' %}">
+              <span data-feather="users"></span>
+              Cadastro - Formulário
+              </a>
+            {% endif %}
+            </li>
+            <li class="nav-item">
+            {% if request.path_info == '/admin_sisco/cadastro_list/' %}
+              <a class="nav-link active" href="{% url 'cadastro_list' %}">
+              <span data-feather="bar-chart-2"></span>
+              Cadastro - Lista
+              </a>
+            {% else %}
+              <a class="nav-link" href="{% url 'cadastro_list' %}">
+              <span data-feather="bar-chart-2"></span>
+              Cadastro - Lista
+              </a>
+            {% endif %}
+            </li>
+            <li class="nav-item">
+            {% if request.path_info == '/admin_sisco/registros_unknown/' %}
+              <a class="nav-link active" href="{% url 'registros_unknown' %}">
+              <span data-feather="bar-chart-2"></span>
+              Registros - Unknown
+              </a>
+            {% else %}
+              <a class="nav-link" href="{% url 'registros_unknown' %}">
+              <span data-feather="bar-chart-2"></span>
+              Registros - Unknown
+              </a>
+            {% endif %}
+            </li>
+            <li class="nav-item">
+            {% if request.path_info == '/admin_sisco/registros_infos/' %}
+              <a class="nav-link active" href="{% url 'registros_infos' %}">
+              <span data-feather="bar-chart-2"></span>
+              Registros - Infos
+              </a>
+            {% else %}
+              <a class="nav-link" href="{% url 'registros_infos' %}">
+              <span data-feather="bar-chart-2"></span>
+              Registros - Infos
+              </a>
+            {% endif %}
+            </li>
+
+          </ul>
+        {% endif %}
+
+      </div>
+    </nav>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
+      </div>
+    {% block content %} {% endblock %}
+    </main>
+       </div>
+</div>
+
+
+    <script src="{% static 'dashboard/assets/dist/js/bootstrap.bundle.min.js' %}"></script>
+
+      <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="{% static 'dashboard/dashboard.js' %}"></script>
+  </body>
+</html>

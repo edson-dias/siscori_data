@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+	{% include 'menu.html' %}
+
+<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.ico' %}" xmlns="http://www.w3.org/1999/html"/>
+	<link rel="stylesheet" href="{% static 'assets/css/loginformat.css' %}">
+
+	<body>
+		<section class="wrapper style2">
+			<div class="limiter">
+				<div class="container-login100">
+					<div class="wrap-login100">
+
+						{% if form.errors %}
+							<div class="alert alert-primary alert-dismissible fade show" role="alert">
+  								{% for key, value in form.errors.items %}
+									{{ value }}
+								{% endfor %}
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    								<span aria-hidden="true">&times;</span>
+  								</button>
+							</div>
+						{% endif %}
+
+						<div class="login100-form-title" style="background-image: url({% static 'images/bg-01.jpg' %});">
+							<h2>Login</h2>
+						</div>
+
+						<form class="login100-form" method="post" autocomplete="off">
+							{% csrf_token %}
+							<div>
+								<h4>E-mail</h4>
+								<input type="email" id="username" name="username" placeholder="Informe seu e-mail" required autofocus>
+							</div>
+
+							<div class="centralizador">
+								<h4>Senha</h4>
+								<input type="password" id="password" name="password" placeholder="Informe sua senha" required>
+							</div>
+
+							<div class="centralizador-botao">
+								<button class="actions" type="submit">Acessar</button>
+							</div>
+						</form>
+						<table>
+							<tr>
+								<td>
+									<h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'password_reset' %}">Esqueceu a senha?</a></h6>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
+{% endblock %}

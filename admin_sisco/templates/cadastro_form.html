@@ -1,0 +1,108 @@
+{% extends 'dashboard/base_dash.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+
+{% block content %}
+{% if user.is_superuser %}
+<div class="card mb-5">
+    <div class="card-header text-center">
+        Cadastro de Produtos
+    </div>
+    {% for i in posts.object_list %}
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea1" style="height: 150px">  {{i.description}}  </textarea>
+                        <label for="floatingTextarea1">Descrição</label>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <form method="POST" action="{% url 'insert_data_db' i.pk %}">
+                       {% csrf_token %}
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="marca" name="marca" placeholder="Marca" required>
+                                    <label for="marca">Marca</label>
+                                </div>
+                            </div>
+                            <div class="col mb-2">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="palavra_chave"  name="keyword" placeholder="Palavras-Chave" required>
+                                    <label for="palavra_chave">Palavras-Chave</label>
+                                </div>
+                            </div>
+                            <div class="col mb-4">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="cod_prod" name="cod_prod" placeholder="Código do Produto" required>
+                                    <label for="cod_prod">Código do Produto</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col mb-2">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="prod_name" name="prod_name" placeholder="Produto" required>
+                                    <label for="prod_name">Produto</label>
+                                </div>
+                            </div>
+                            <div class="col mb-2">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="descricao_prod" name="descricao_prod" placeholder="Descrição" required>
+                                    <label for="descricao_prod">Descrição</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                {% if posts.has_previous %}
+                                    <a class="btn btn-primary" href="?page={{ posts.previous_page_number }}">Anterior</a>
+                                {% endif %}
+                                {% if posts.has_next %}
+                                    <a class="btn btn-primary" href="?page={{ posts.next_page_number }}">Próxima</a>
+                                {% endif %}
+
+                                     <button type="submit" class="btn btn-danger btn-sm">Inserir</button>
+                            </div>
+                        </div>
+                    </form>
+                    <form method="post" action="{% url 'delete_register' i.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Deletar</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 75px">  {{i.ncm}}  </textarea>
+                        <label for="floatingTextarea2">NCM</label>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea3" style="height: 75px">  {{i.harbor}}  </textarea>
+                        <label for="floatingTextarea3">Porto</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        {% endfor %}
+            <span class="current">
+            {{ posts.number }} de {{ posts.paginator.num_pages }}
+        </span>
+</div>
+{% endif %}
+{% endblock %}
+
+

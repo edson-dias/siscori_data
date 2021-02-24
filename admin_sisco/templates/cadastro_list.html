@@ -1,0 +1,62 @@
+{% extends 'dashboard/base_dash.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+
+{% block content %}
+    {% if user.is_superuser %}
+    <div class="card">
+        <div class="card-header text-center">
+            Cadastro por Pesquisa
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Pesquisa</h5>
+            <form method="GET">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-6 mb-4">
+                        <input type="text" class="form-control" name="search">
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary" type="submit">Pesquisar</button>
+                    </div>
+                </div>
+            </form>
+            {% if search_query %}
+            <div class="table-responsive">
+                <table class="table align-middle table-striped table-sm table-hover caption-top table-bordered text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">NCM</th>
+                            <th scope="col">Porto</th>
+                            <th scope="col">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in search_query %}
+                            <tr>
+                                <td scope="col">{{product.description}}</td>
+                                <td scope="col">{{product.ncm}}</td>
+                                <td scope="col">{{product.harbor}}</td>
+                                <td scope="col"><a type="button" href="{% url 'cadastro_list_form' product.id %}">Inserir</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="container">
+        {% if message_success %}
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+              <strong>{{message_success}}</strong> &nbsp;&nbsp;&nbsp;&nbsp; <a href="{% url 'cadastro_list' %}" class="alert-link">Voltar!</a>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+    </div>
+    {% endif %}
+{% endblock %}

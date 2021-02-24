@@ -1,0 +1,33 @@
+{% extends 'dashboard/base_dash.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+
+{% block content %}
+{% load crispy_forms_tags %}
+    <div class="container">
+        {% if message_success %}
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+              <strong>{{message_success}}</strong> &nbsp;&nbsp;&nbsp;&nbsp; <a href="{% url 'cadastro_list' %}" class="alert-link">Voltar!</a>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+    </div>
+    <div class="container">
+        <h2>{{ description }}</h2>
+    </div>
+
+    <form id="form_control" method="GET">
+        {% csrf_token %}
+        <div class="container">
+            <div class="row mb-3 justify-content-center">
+                {{ form|crispy }}
+            </div>
+            <div>
+                <button class="btn btn-primary" type="submit">Registrar</button>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

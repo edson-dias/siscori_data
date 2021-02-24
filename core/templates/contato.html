@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% include 'menu.html' %}
+    <section id="one" class="wrapper style2 special">
+    	<header>
+	    	<h2>Contato</h2>
+			<h4>Deseja mais informações sobre nossa plataforma?<br>Entre em contato através de um de nossos canais!</h4>
+		</header>
+    </section>
+
+    <section class="wrapper style5">
+        <div class="inner">
+            <section>
+                <h4>Formulário de Contato</h4>
+                <form method="post" action="#">
+                    <div class="row gtr-uniform">
+                        <div class="col-6 col-12-xsmall">
+                            <input type="text" name="demo-name" id="demo-name" value="" placeholder="Nome" />
+                        </div>
+                        <div class="col-6 col-12-xsmall">
+                            <input type="email" name="demo-email" id="demo-email" value="" placeholder="E-mail" />
+                        </div>
+                        <div class="col-12">
+                            <textarea name="demo-message" id="demo-message" placeholder="Digite a sua Mensagem." rows="6"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <ul class="actions">
+                            <li><input type="submit" value="Enviar"  /></li>
+                            <li><input type="reset" value="Apagar" /></li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </section>
+
+    <footer id="footer">
+
+            <h4>Também estamos disponíveis através:</h4>
+            <h6>Telefone: 041 99985-0717<br>E-mail: Robertinho_do_reggae@hotmail.com</h6>
+
+        <ul class="icons">
+	    	<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+			<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+			<li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+		</ul>
+	</footer>
+
+{% endblock %}

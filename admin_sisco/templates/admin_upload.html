@@ -1,0 +1,89 @@
+{% extends 'dashboard/base_dash.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+
+{% block content %}
+    {% load crispy_forms_tags %}
+
+    {% if user.is_superuser %}
+<!-- TODO: Arrumar design do form utilizando das chaves crispy + bootstrap -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2>Upload Plan Siscori</h2>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col">
+                                    {{ form|crispy }}
+                                </div>
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary">Upload</button>
+
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<hr>
+    <form method="post" action="{% url 'set_data' %}">
+        {% csrf_token %}
+        <div class="col-2">
+            <div class="form-floating">
+                <select class="form-select" id="floating_ncm" aria-label="Default select example" name="ncm">
+                    {% for ncm_filters in ncm %}
+                        <option value='{{ncm_filters}}'>{{ncm_filters}}</option>
+                    {% endfor %}
+                </select>
+                <label for="floating_ncm">Ncm</label>
+            </div>
+        </div>
+                <div class="col-2">
+            <div class="form-floating">
+                <select class="form-select" id="floating_countries" aria-label="Default select example" name="country">
+                    {% for c_filters in country %}
+                        <option value='{{c_filters}}'>{{c_filters}}</option>
+                    {% endfor %}
+                </select>
+                <label for="floating_countries">Países</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-danger btn-sm">Inserir Dados</button>
+    </form>
+
+
+
+    <div class="col-6 mx-auto">
+        <div class="table-responsive">
+            <table class="table align-middle table-striped table-sm table-hover caption-top table-bordered text-center">
+                <caption><h5 class="text-capitalize">Arquivos enviados recentemente:</h5></caption>
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Arquivo</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for itens in query %}
+                    <tr>
+                        <td scope="col">{{itens.files}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% endif %}
+
+{% endblock %}

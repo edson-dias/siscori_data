@@ -1,0 +1,25 @@
+{% load static %}
+
+<header id="header" class="alt">
+	<nav id="nav">
+		<ul>
+			<li class="special">
+				<a href="#menu" class="menuToggle"><span>Menu</span></a>
+				<div id="menu">
+					<ul>
+						<li><a href="{% url 'index' %}">Home</a></li>
+						<li><a href="{% url 'about' %}">Sobre</a></li>
+						<li><a href="{% url 'contato' %}">Contato</a></li>
+						{% if user.is_anonymous %}
+							<li><a href="{% url 'login' %}">Login</a></li>
+						{% else %}
+							<li><a href="{% url 'plataforma' %}">Dashboard</a></li>
+							<li><a href="{% url 'logout' %}">Logout</a></li>
+
+						{% endif %}
+					</ul>
+				</div>
+			</li>
+		</ul>
+	</nav>
+</header>

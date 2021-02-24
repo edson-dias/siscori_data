@@ -1,0 +1,112 @@
+{% extends 'dashboard/base_dash.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+    {% block content %}
+
+        <form class="form-control p-3 mb-2 bg-dark text-dark" method="GET" action="{% url 'plataforma' %}" >
+            {% csrf_token %}
+
+            <div class="row justify-content-md-center">
+                <div class="col-4">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="search" required>
+                        <label for="floatingInput">Pesquisa Produtos</label>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-floating">
+                        <input class="form-control " id="floating_brand" type="text" placeholder="Especificar Marca." aria-label="search2" name="brands">
+                        <label for="floating_ano">Especificar Marca</label>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-floating">
+                        <select class="form-select" id="floating_mes_i" aria-label="Default select example" name="i_month">
+                            {% for k, v in months.items %}
+                                <option value={{k}}>{{v}}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="floating_mes_i">Mês Inicial</label>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-floating">
+                        <select class="form-select" id="floatingSelect" aria-label="Default select example" name="f_month">
+                            {% for k, v in months.items %}
+                                <option value={{k}}>{{v}}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="floatingSelect">Mês final</label>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="form-floating">
+                        <select class="form-select" id="floating_ano" aria-label="Default select example" name="year_options">
+                            {% for k, v in years.items %}
+                                <option value={{k}}>{{v}}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="floating_ano">Ano</label>
+                    </div>
+                </div>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="submit" class="btn btn-outline-light btn-md align-self-center">Pesquisar</button>
+                </div>
+                </div>
+        </form>
+
+        {% if search is not None %}
+            <div class="d-grid col-12 mx-auto border rounded-2">
+                <h2 class="mx-auto">Quantidade x Marca</h2>
+                <canvas class="my-4 w-200" id="grafico" width="2200" height="600"></canvas>
+            </div>
+            <div class="table-responsive">
+                <table class="table align-middle table-striped table-sm table-hover caption-top table-bordered text-center">
+                    <caption><h2 class="text-capitalize">Importações: {{search}}</h2></caption>
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">Código</th>
+                            <th scope="col">NCM</th>
+                            <th scope="col">Porto</th>
+                            <th scope="col">Mês</th>
+                            <th scope="col">Ano</th>
+                            <th scope="col">Quant</th>
+                            <th scope="col">Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in all_search_results %}
+                            <tr>
+                                <td>{{product.infos_prod.nome_prod}}</td>
+                                <td scope="col">{{product.infos_prod.marca}}</td>
+                                <td scope="col">{{product.infos_prod.cod_marca}}</td>
+                                <td scope="col">{{product.infos_prod.ncm}}</td>
+                                <td scope="col">{{product.infos_prod.pa}}</td>
+                                <td scope="col">{{ product.mes }}</td>
+                                <td scope="col">{{ product.ano }}</td>
+                                <td scope="col">{{ product.quant }}</td>
+                                <td scope="col">$ {{ product.valor }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>Nenhum resultado encontrado!</tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+        {% bootstrap_javascript jquery='full' %}
+        <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
+        <script type="text/javascript">
+            $.get('{% url "index_dados" %}', function(data){
+                var ctx = $("#grafico").get(0).getContext("2d");
+                new Chart(ctx, {
+                    type: 'bar', data: data
+                });
+            });
+        </script>
+    {% endblock %}

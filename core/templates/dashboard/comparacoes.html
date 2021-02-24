@@ -1,0 +1,57 @@
+{% extends 'dashboard/base_dash.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% block content %}
+
+
+
+      <form class="form-control" method="POST" action="{% url 'comparacoes' %}" >
+        {% csrf_token %}
+        <div class="row g-3">
+          <div class="col-6">
+            <div class="mb-2">
+              <label class="form-label">Pesquisa por palavras-chaves *</label>
+              <input class="form-control " type="text" placeholder="Pesquisar importações." aria-label="search" name="search">
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="mb-2">
+              <label class="form-label">Data Inicial</label>
+              <input class="form-control" type="date" data-bs-toggle="dsada" placeholder="Opcional!!" name="i_date">
+            </div>
+          </div>
+          <div class="col-3">
+              <div class="mb-2">
+                  <label class="form-label">Data Final</label>
+                  <input class="form-control" type="date" name="f_date">
+              </div>
+          </div>
+        </div>
+      </form>
+
+<h2>{{ datinha }}</h2>
+<h2>{{ datinha1 }}</h2>
+<h2>{{ datinha2 }}</h2>
+<h2>{{ datinha3 }}</h2>
+
+
+
+
+    <div class="container">
+        <canvas id="grafico" width="500" height="400"></canvas>
+    </div>
+
+  {% bootstrap_javascript jquery='full' %}
+  <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
+
+  <script type="text/javascript">
+      $.get('{% url "index_dados" %}', function(data){
+        var ctx = $("#grafico").get(0).getContext("2d");
+        new Chart(ctx, {
+            type: 'bar', data: data
+        });
+      });
+  </script>
+
+{% endblock %}

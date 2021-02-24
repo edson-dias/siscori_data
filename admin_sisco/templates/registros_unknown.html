@@ -1,0 +1,62 @@
+{% extends 'dashboard/base_dash.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+
+{% block content %}
+     <div class="table-responsive">
+                <table class="table align-middle table-striped table-sm table-hover caption-top table-bordered text-center">
+                    <caption><h2 class="text-capitalize">DB: Unknown </h2></caption>
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">NCM</th>
+                            <th scope="col">Porto</th>
+                            <th scope="col">PA</th>
+                            <th scope="col">PO</th>
+                            <th scope="col">Mês</th>
+                            <th scope="col">Ano</th>
+                            <th scope="col">Quant</th>
+                            <th scope="col">Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in page_obj %}
+                            <tr>
+                                <td scope="col">{{product.id}}</td>
+                                <td scope="col">{{product.description}}</td>
+                                <td scope="col">{{product.ncm}}</td>
+                                <td scope="col">{{product.harbor}}</td>
+                                <td scope="col">{{product.purchase_country}}</td>
+                                <td scope="col">{{product.origin_country}}</td>
+                                <td scope="col">{{ product.month }}</td>
+                                <td scope="col">{{ product.year }}</td>
+                                <td scope="col">{{ product.quantity }}</td>
+                                <td scope="col">$ {{ product.value }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>Nenhum registro salvo!</tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}
