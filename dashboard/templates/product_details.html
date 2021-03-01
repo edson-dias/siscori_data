@@ -1,0 +1,92 @@
+{% extends 'base_dash.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% block content %}
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div class="table-responsive">
+                <table class="table align-middle table-striped table-sm table-hover caption-top table-bordered text-center">
+                    <caption><h3 class="text-capitalize">Importações {{ detail_query.first.infos_prod.marca }} - Cód. {{detail_query.first.infos_prod.cod_marca}}: {{detail_query.first.infos_prod.nome_prod}}</h3></caption>
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">
+                                <div class="row justify-content-center">
+                                    <div class="col-8">
+                                        <form method="get">
+                                            {% csrf_token %}
+                                                <select name="year" onchange="form.submit()" class="form-select form-select-sm" aria-label=".form-select-lg example">
+                                                    <option selected>Ano</option>
+                                                    {% for v in year %}
+                                                        <option value={{v}}>{{v}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                        </form>
+                                    </div>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <form method="get" >
+                                    {% csrf_token %}
+                                    <select name="month" class="form-select form-select-sm" onchange="form.submit()" aria-label=".form-select-lg example">
+                                        <option selected>Mês</option>
+                                        {% for k, v in month.items %}
+                                            <option value={{v}}>{{k}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </form>
+                            </th>
+                            <th scope="col">Quantidade</th>
+                            <th scope="col">Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in detail_query %}
+                            <tr>
+                                <td scope="col">{{ product.ano }}</td>
+                                <td scope="col">{{ product.mes }}</td>
+                                <td scope="col">{{ product.quant }}</td>
+                                <td scope="col">$ {{ product.valor }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>Nenhum resultado encontrado!</tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+                </div>
+</div>
+    </div>
+{% if detail_query %}
+    <div class="container">
+           <div class="row justify-content-center">
+        <div class="col-8">
+        <canvas id="grafico" width="500" height="400"></canvas>
+    </div>
+           </div>
+    </div>
+{% endif %}
+  {% bootstrap_javascript jquery='full' %}
+  <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
+
+  <script type="text/javascript">
+      $.get('{% url "product_details_json" %}', function(data){
+        var ctx = $("#grafico").get(0).getContext("2d");
+        new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+				responsive: true,
+            }
+        });
+      });
+  </script>
+
+{% endblock %}

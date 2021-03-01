@@ -1,57 +1,58 @@
-{% extends 'dashboard/base_dash.html' %}
+{% extends 'base_dash.html' %}
 {% load static %}
 {% load bootstrap4 %}
 {% bootstrap_css %}
 {% block content %}
 
 
+<form class="form-control p-3 mb-2 bg-dark text-dark" method="GET" action="{% url 'comparacoes' %}" >
+            {% csrf_token %}
 
-      <form class="form-control" method="POST" action="{% url 'comparacoes' %}" >
-        {% csrf_token %}
-        <div class="row g-3">
-          <div class="col-6">
-            <div class="mb-2">
-              <label class="form-label">Pesquisa por palavras-chaves *</label>
-              <input class="form-control " type="text" placeholder="Pesquisar importações." aria-label="search" name="search">
+            <div class="row justify-content-md-center">
+                <div class="col-10">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="e" name="search"  required>
+                        <label for="floatingInput">Pesquisar Marca</label>
+                    </div>
+                </div>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="submit" class="btn btn-outline-light btn-md align-self-center">Pesquisar</button>
+                </div>
+                </div>
+        </form>
+
+{% if page_obj %}
+    <div class="table-responsive">
+                <table class="table align-middle table-striped table-sm table-hover caption-top table-bordered text-center">
+                    <caption><h2 class="text-capitalize">Marca</h2></caption>
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Marca</th>
+                            <th scope="col">Produto</th>
+                            <th scope="col">Código</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">NCM</th>
+                            <th scope="col">Porto</th>
+                            <th scope="col">País de Aquisição</th>
+                            <th scope="col">País de Origem</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in page_obj %}
+                            <tr>
+                                <td scope="col">{{product.marca}}</td>
+                                <td scope="col"><a href="{% url 'product_details' product.id %}">{{product.nome_prod}}</a></td>
+                                <td scope="col">{{product.cod_marca}}</td>
+                                <td scope="col">{{ product.descricao }}</td>
+                                <td scope="col">{{product.ncm}}</td>
+                                <td scope="col">{{product.porto}}</td>
+                                <td scope="col">{{ product.pa }}</td>
+                                <td scope="col">{{ product.po }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-          </div>
-          <div class="col-3">
-            <div class="mb-2">
-              <label class="form-label">Data Inicial</label>
-              <input class="form-control" type="date" data-bs-toggle="dsada" placeholder="Opcional!!" name="i_date">
-            </div>
-          </div>
-          <div class="col-3">
-              <div class="mb-2">
-                  <label class="form-label">Data Final</label>
-                  <input class="form-control" type="date" name="f_date">
-              </div>
-          </div>
-        </div>
-      </form>
-
-<h2>{{ datinha }}</h2>
-<h2>{{ datinha1 }}</h2>
-<h2>{{ datinha2 }}</h2>
-<h2>{{ datinha3 }}</h2>
-
-
-
-
-    <div class="container">
-        <canvas id="grafico" width="500" height="400"></canvas>
-    </div>
-
-  {% bootstrap_javascript jquery='full' %}
-  <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
-
-  <script type="text/javascript">
-      $.get('{% url "index_dados" %}', function(data){
-        var ctx = $("#grafico").get(0).getContext("2d");
-        new Chart(ctx, {
-            type: 'bar', data: data
-        });
-      });
-  </script>
+{% endif %}
 
 {% endblock %}

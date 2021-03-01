@@ -158,7 +158,6 @@ class CadastroListFormView(LoginRequiredMixin, CreateView):
         return context
 
 
-
 class AdminSiscoFiltrosView(LoginRequiredMixin, TemplateView):
     template_name = 'admin_filtros.html'
 

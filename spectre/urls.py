@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('', include('admin_sisco.urls')),
+    path('', include('dashboard.urls')),
 ]
 
